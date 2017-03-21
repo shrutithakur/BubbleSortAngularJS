@@ -1,18 +1,19 @@
 # bubble-sort-angular-js
 
-Synopsis
+#Synopsis
 
 This project was achieved using AngularJS which is a JavaScript framework. Bubble Sort AngularJS project is aimed at 
 the visual representation of the working of Bubble Sort algorithm using AngularJS. 
 
-Installation
+#Installation
 
-Clone repository and install dependencies via git and npm install and bower install
+1) Clone repository and install dependencies via git
+2) npm install
+3) bower install
 
 Run it using grunt serve
 
-
-Steps to follow
+#Steps to follow
 
 1) It is assumed that the user inputs a string of space-separated numbers (positive/negative/float) to be Bubble sorted.
 2) Click on the "Display the input" button for a visual representation of the user input.
