@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>Bubble Sort Tutorial</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="bower_components/jquery/jquery.js"></script>
+	<link rel="stylesheet" href="styles/colorCSS.css">
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<script type="text/javascript" src="scripts/controllers/BubbleSortController.js"></script>
+</head>
+<body>
+	<div class="container">
+		<h1 style="text-align:center; color:white; font-family:Arial, sans-serif;" class="bg-primary">Welcome to Bubble Sort Tutorial </h1>
+		<form name="myform" ng-app="myApp">
+			<div class="form-group">
+				<fieldset>
+					<h4>Bubble sort is a sorting algorithm that repeatedly steps through the array and compares each adjacent items and swaps them if they are not in the correct order. The time complexity for this algorithm is O(n^2).</h4><br />
+					<label>Enter space separated list of numbers to be sorted</label>
+					<input class="form-control" id="number" ng-disabled="inputText == 1" style="align:center" type="text" ng-model="numberList"></input><br/>
+					<div class="refreshButton">
+						<button type="button" class="btn btn-primary" ng-controller="MakeArrayController" ng-click="makeArray()">Display my input</button>
+						<button type="button"  class="btn btn-success" ng-controller="MakeArrayController" ng-click="clear()">Clear</button>
+					</div><br />
+					<div ng-show="showNote == 1">
+						<i class="glyphicon glyphicon-hand-right"></i> <span style="background-color:yellow">Yellow</span> denotes there is a swap between adjacent elements.<br />
+						<i class="glyphicon glyphicon-hand-right"></i> <span style="background-color:lightblue">Blue</span> denotes there is a no swap for that element.
+					</div>
+					<span class="numberCircle" ng-style="getNewPosition(x.position)" style="background:{{x.color}}" ng-repeat="x in items">{{x.number}}</span><br />  
+					<div class="displayWhichNosAreGettingCompared">{{displayWhichNosAreGettingCompared}}</div> 
+					<div class="bsbutton1">
+						<button type="button" ng-controller="BubbleSortController" ng-disabled="buttonMessage == 0 || flagVariable == 'desc' " class="btn btn-primary" ng-click="bubbleSort('asc')">Ascending Bubble Sort</button>
+						<button type="button" ng-controller="BubbleSortController" ng-disabled="buttonMessage == 0 || flagVariable == 'asc'" class="btn btn-primary" ng-click="bubbleSort('desc')">Descending Bubble Sort</button>
+					</div>	
+					<div class="upAsc">
+						<i ng-show="flagVariable == 'asc'" class="glyphicon glyphicon-arrow-up"> </i><br />
+					</div>
+					<div class="upText">
+						<span style="color:blue" ng-show="flagVariable == 'asc'">Click this button for the next step</span>
+					</div>
+					<div class="upDesc">
+						<i ng-show="flagVariable == 'desc'" class="glyphicon glyphicon-arrow-up"> </i><br />
+					</div>
+					<div class="upDescText">
+						<span style="color:blue" ng-show="flagVariable == 'desc'">Click this button for the next step</span>
+					</div>
+					<div class="message">{{message}}</div>
+				</fieldset>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

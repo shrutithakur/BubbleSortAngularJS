@@ -1,0 +1,75 @@
+.container{
+	margin-top: 40px;
+}
+
+.numberCircle{
+	border-radius: 50%; 
+	margin-top : 20px;    
+	width: 50px;
+	height: 50px;
+	padding: 8px;
+	margin-left: 500px;
+	background: #00FFFF;
+	border: 2px solid #666;
+	color: #666;
+	text-align: center;
+	font: 32px Arial, sans-serif;
+	position:absolute;
+	transition:all 3000ms;
+}
+
+h4{
+	display: block;
+	font: 20px Arial, sans-serif;
+	color: blue;
+}
+
+.bsbutton1{
+	margin-top : 100px;
+	margin-left: 400px;
+	display: block;
+}
+
+.upAsc{
+	display: block;
+	margin-left: 480px;
+}
+
+.upText{
+	display:block;
+	margin-left: 400px;
+}
+
+.upDesc{
+	display: block;
+	margin-left: 650px;
+}
+
+.upDescText{
+	display:block;
+	margin-left: 560px;
+}
+
+.refreshButton{
+	display: block;
+}
+
+.message{
+	margin-top : 50px;
+	font: 30px Arial, sans-serif;
+	text-align: center;
+	color: teal;
+	font-weight: bold;
+	margin-left: 160px;
+	position:absolute;
+}
+
+.displayWhichNosAreGettingCompared{
+	margin-top : 63px;
+	font: 15px Arial, sans-serif;
+	text-align: center;
+	color: red;
+	font-weight: bold;
+	margin-left: 180px;
+	position:absolute;
+}
