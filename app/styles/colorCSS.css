@@ -4,7 +4,7 @@
 
 .numberCircle{
 	border-radius: 50%; 
-	margin-top : 20px;    
+	margin-top : 10px;    
 	width: 50px;
 	height: 50px;
 	padding: 8px;
@@ -25,7 +25,7 @@ h4{
 }
 
 .bsbutton1{
-	margin-top : 100px;
+	margin-top : 85px;
 	margin-left: 400px;
 	display: block;
 }
@@ -55,7 +55,7 @@ h4{
 }
 
 .message{
-	margin-top : 50px;
+	margin-top : 5px;
 	font: 30px Arial, sans-serif;
 	text-align: center;
 	color: teal;
@@ -64,8 +64,26 @@ h4{
 	position:absolute;
 }
 
+.dialog-demo-content{
+	margin-top : 40px;
+	font: 20px Arial, sans-serif;
+	text-align: center;
+	color: black;
+	font-weight: bold;
+	margin-left: 500px;
+	position:absolute;
+}
+
+.demoStartMessage{
+	display: block;
+	font: 20px Arial, sans-serif;
+	color: blue;
+	font-weight: bold;
+	text-align: center;
+	}
+
 .displayWhichNosAreGettingCompared{
-	margin-top : 63px;
+	margin-top : 50px;
 	font: 15px Arial, sans-serif;
 	text-align: center;
 	color: red;

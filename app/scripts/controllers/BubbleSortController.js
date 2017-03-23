@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ngAnimate']);
+var myApp = angular.module('myApp', ['ngAnimate', 'ngMaterial']);
 myApp.controller('BubbleSortController', function ($rootScope) {
 
 	// to shift the elements in case of swap for each iteration of bubble sort
@@ -8,6 +8,10 @@ myApp.controller('BubbleSortController', function ($rootScope) {
 		};
 	}
 
+	$rootScope.ascDone = 0;
+	$rootScope.descDone = 0;
+	$rootScope.items = [];
+
 	// controller function to implement Bubble sort on an array of elements
 	$rootScope.bubbleSort = function (ascOrDesc) {
 		$rootScope.itemsLength = $rootScope.items.length;
@@ -16,13 +20,17 @@ myApp.controller('BubbleSortController', function ($rootScope) {
 		$rootScope.showNote = 1; // ng-show color coding used
 
 		$rootScope.displayWhichNosAreGettingCompared = '';
-		
+
 		$rootScope.inputText = 1;
-		
+
+		$rootScope.startDemo = 0;
+		$rootScope.pattern = 0;
+
 		if ($rootScope.itemsLength == 0) {
 			$rootScope.buttonMessage = 0;
 			$rootScope.flagVariable = 'x';
 			$rootScope.showNote = 0;
+			$rootScope.showAlert();
 		}
 
 		for (; $rootScope.i < $rootScope.itemsLength - $rootScope.lastIndex - 1; $rootScope.i++) {
@@ -56,10 +64,21 @@ myApp.controller('BubbleSortController', function ($rootScope) {
 
 		// to display success message
 		if ($rootScope.lastIndex == $rootScope.itemsLength - 1) {
-			$rootScope.message = "Congratulations!!! You have mastered Bubble Sort successfully!";
+			if ($rootScope.flagVariable == 'asc') {
+				$rootScope.order = "Ascending";
+				$rootScope.confirmOrder = "Descending";
+			} else {
+				$rootScope.order = "Descending";
+				$rootScope.confirmOrder = "Ascending";
+			}
+
+			$rootScope.message = "Congratulations!!! You have mastered " + $rootScope.order + " Bubble Sort!";
+			$rootScope.dialogAlert = 1;
 			$rootScope.buttonMessage = 0;
 			$rootScope.flagVariable = " ";
 			$rootScope.displayWhichNosAreGettingCompared = " ";
+			$rootScope.buttonMessage = 0;
+			$rootScope.inputText = 0;
 		}
 	};
 
@@ -78,8 +97,10 @@ myApp.controller('BubbleSortController', function ($rootScope) {
 	// Handling the click of Ascending or Descending Bubble sort buttons
 	$rootScope.compareElems = function (compare) {
 		if (compare == 'asc') {
+			$rootScope.ascDone = 1;
 			return (parseFloat($rootScope.items[$rootScope.i].number) > parseFloat($rootScope.items[$rootScope.i + 1].number));
 		} else {
+			$rootScope.descDone = 1;
 			return (parseFloat($rootScope.items[$rootScope.i].number) < parseFloat($rootScope.items[$rootScope.i + 1].number));
 		}
 	};
@@ -87,43 +108,94 @@ myApp.controller('BubbleSortController', function ($rootScope) {
 });
 
 // MakeArrayController to convert user input to JSON
-myApp.controller('MakeArrayController', function ($rootScope) {
-	$rootScope.items = [];
-	$rootScope.lastIndex = 0;
-	$rootScope.i = 0;
+myApp.controller('MakeArrayController', ['$rootScope', '$mdDialog', function ($rootScope, $mdDialog) {
+			$rootScope.status = '  ';
 
-	// refresh the page, called on clear button
-	$rootScope.clear = function () {
-		location.reload();
-	}
-
-	$rootScope.makeArray = function () {
-		var userInput = angular.element(document.getElementById("number"));
-		$rootScope.numberList = userInput.val();
-
-		$rootScope.arrayOfNumber = $rootScope.numberList.match(/\S+/g); //To handle multiple and trailing whitespaces
-
-		if ($rootScope.arrayOfNumber) {
-			var len = $rootScope.arrayOfNumber.length;
-			for (var a = 0; a < len; a++) {
-				$rootScope.items.push({
-					"number": $rootScope.arrayOfNumber[a],
-					"color": "lightblue",
-					"position": a
-				});
+			$rootScope.pattern = 0;
+			// refresh the page, called on clear button
+			$rootScope.clear = function () {
+				location.reload();
 			}
-		}
 
-		// to disable the bubble sort button when user input is empty
-		if ($rootScope.numberList == "") {
-			$rootScope.buttonMessage = 0;
-			$rootScope.flagVariable = 'x';
-		}
+			$rootScope.showConfirm = function (ev) {
+				// Appending dialog to document.body to cover sidenav in docs app
+				var confirm = $mdDialog.confirm()
+					.title('Would you like to do Bubble Sort on your input again?')
+					.targetEvent(ev)
+					.ok('Yes! Let us sort again.')
+					.cancel('No, thanks! I have understood the demo.');
 
-		if (len == 1) {
-			$rootScope.message = "Congratulations!!! You have mastered Bubble Sort successfully!";
-			$rootScope.buttonMessage = 0;
-			return;
+				$mdDialog.show(confirm).then(function () {
+					$rootScope.dialogAlert = 0;
+					$rootScope.makeArray();
+				}, function () {
+					$rootScope.dialogAlert = 0;
+					$rootScope.clear();
+				});
+			};
+
+			$rootScope.showAlert = function () {
+				$mdDialog.show(
+					$mdDialog.alert()
+					.parent(angular.element(document.querySelector('#popupContainer')))
+					.clickOutsideToClose(true)
+					.title('Alert!!!')
+					.textContent('Please enter some numbers to be Bubble sorted !')
+					.ok('Got it!'));
+				$rootScope.buttonMessage = 1;
+				$rootScope.inputText = 0;
+			};
+
+			$rootScope.makeArray = function () {
+				$rootScope.items = [];
+				$rootScope.lastIndex = 0;
+				$rootScope.i = 0;
+
+				var patt = /^[0-9 ]*$/;
+
+				$rootScope.message = "";
+
+				$rootScope.showNote = 0;
+
+				var userInput = angular.element(document.getElementById("number"));
+				$rootScope.numberList = userInput.val();
+
+				if (!patt.test($rootScope.numberList)) {
+					$rootScope.pattern = 1;
+					return;
+				} else {
+					$rootScope.pattern = 0;
+				}
+
+				$rootScope.arrayOfNumber = $rootScope.numberList.match(/\S+/g); //To handle multiple and trailing whitespaces
+
+				if ($rootScope.arrayOfNumber) {
+					var len = $rootScope.arrayOfNumber.length;
+					for (var a = 0; a < len; a++) {
+						$rootScope.items.push({
+							"number": $rootScope.arrayOfNumber[a],
+							"color": "lightblue",
+							"position": a
+						});
+					}
+					$rootScope.displayWhichNosAreGettingCompared = "";
+					$rootScope.buttonMessage = 1;
+					$rootScope.startDemo = 1;
+				}
+
+				// to disable the bubble sort button when user input is empty
+				if ($rootScope.numberList == "") {
+					$rootScope.buttonMessage = 0;
+					$rootScope.flagVariable = 'x';
+					$rootScope.showAlert();
+
+				}
+
+				if (len == 1) {
+					$rootScope.message = "Congratulations!!! You have mastered Bubble Sort successfully!";
+					$rootScope.buttonMessage = 0;
+					return;
+				}
+			};
 		}
-	};
-});
+	]);

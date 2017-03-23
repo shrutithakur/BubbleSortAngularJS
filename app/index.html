@@ -8,15 +8,19 @@
 	<script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+	<script src="bower_components/angular-material/angular-material.min.js"></script>
+	<script src="bower_components/angular-aria/angular-aria.min.js"></script>
+	<script src="bower_components/angular-messages/angular-messages.min.js"></script>
     <script src="bower_components/jquery/jquery.js"></script>
 	<link rel="stylesheet" href="styles/colorCSS.css">
 	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
 	<script type="text/javascript" src="scripts/controllers/BubbleSortController.js"></script>
 </head>
 <body>
 	<div class="container">
-		<h1 style="text-align:center; color:white; font-family:Arial, sans-serif;" class="bg-primary">Welcome to Bubble Sort Tutorial </h1>
-		<form name="myform" ng-app="myApp">
+		<h1 style="text-align:center; color:white; font-family:Arial, sans-serif;" class="bg-primary">Welcome to Bubble Sort Demo</h1>
+		<form name="myform" ng-app="myApp" >
 			<div class="form-group">
 				<fieldset>
 					<h4>Bubble sort is a sorting algorithm that repeatedly steps through the array and compares each adjacent items and swaps them if they are not in the correct order. The time complexity for this algorithm is O(n^2).</h4><br />
@@ -25,10 +29,12 @@
 					<div class="refreshButton">
 						<button type="button" class="btn btn-primary" ng-controller="MakeArrayController" ng-click="makeArray()">Display my input</button>
 						<button type="button"  class="btn btn-success" ng-controller="MakeArrayController" ng-click="clear()">Clear</button>
+						<label ng-show="pattern == 1" style="color:red">Only numbers with spaces allowed!</label>
 					</div><br />
+					<div class="demoStartMessage"><label ng-show="startDemo == 1">Click on either of the 2 buttons below to start Bubble Sorting demo</label></div>
 					<div ng-show="showNote == 1">
 						<i class="glyphicon glyphicon-hand-right"></i> <span style="background-color:yellow">Yellow</span> denotes there is a swap between adjacent elements.<br />
-						<i class="glyphicon glyphicon-hand-right"></i> <span style="background-color:lightblue">Blue</span> denotes there is a no swap for that element.
+						<i class="glyphicon glyphicon-hand-right"></i> <span style="background-color:lightblue">Blue</span> denotes there is no swap for that element.
 					</div>
 					<span class="numberCircle" ng-style="getNewPosition(x.position)" style="background:{{x.color}}" ng-repeat="x in items">{{x.number}}</span><br />  
 					<div class="displayWhichNosAreGettingCompared">{{displayWhichNosAreGettingCompared}}</div> 
@@ -49,6 +55,14 @@
 						<span style="color:blue" ng-show="flagVariable == 'desc'">Click this button for the next step</span>
 					</div>
 					<div class="message">{{message}}</div>
+					<!-- <div class="confirmButton" ng-show="confirmShow == 1">
+					<label>Do you want to try {{confirmOrder}} Bubble Sort with your input?</label>
+					<button class="btn btn-primary" ng-controller="MakeArrayController" ng-click="makeArray()">Yes</button>
+					<button class="btn btn-primary" ng-controller="MakeArrayController" ng-click="clear()">No</button>
+					</div> -->
+					<div class="dialog-demo-content" >
+					<md-button ng-show="dialogAlert == 1" class="md-primary md-raised" ng-controller="MakeArrayController" ng-click="showConfirm($event)">Try again?</md-button>
+					</div>					
 				</fieldset>
 			</div>
 		</form>
