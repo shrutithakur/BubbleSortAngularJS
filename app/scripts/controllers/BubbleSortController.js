@@ -151,7 +151,9 @@ myApp.controller('MakeArrayController', ['$rootScope', '$mdDialog', function ($r
 				$rootScope.lastIndex = 0;
 				$rootScope.i = 0;
 
-				var patt = /^[0-9 ]*$/;
+				var patt = /^-?[0-9]+(\\.[0-9]+)?$/;
+				
+				var regExpression = new RegExp('^-?[0-9]+(\\.[0-9]+)?$');
 
 				$rootScope.message = "";
 
@@ -160,27 +162,31 @@ myApp.controller('MakeArrayController', ['$rootScope', '$mdDialog', function ($r
 				var userInput = angular.element(document.getElementById("number"));
 				$rootScope.numberList = userInput.val();
 
-				if (!patt.test($rootScope.numberList)) {
-					$rootScope.pattern = 1;
-					return;
-				} else {
-					$rootScope.pattern = 0;
-				}
-
 				$rootScope.arrayOfNumber = $rootScope.numberList.match(/\S+/g); //To handle multiple and trailing whitespaces
 
 				if ($rootScope.arrayOfNumber) {
 					var len = $rootScope.arrayOfNumber.length;
-					for (var a = 0; a < len; a++) {
-						$rootScope.items.push({
-							"number": $rootScope.arrayOfNumber[a],
-							"color": "lightblue",
-							"position": a
-						});
-					}
 					$rootScope.displayWhichNosAreGettingCompared = "";
 					$rootScope.buttonMessage = 1;
 					$rootScope.startDemo = 1;
+					
+					for (var a = 0; a < len; a++) {
+						console.log($rootScope.arrayOfNumber[a]);
+						if (!regExpression.test($rootScope.arrayOfNumber[a])) {
+							$rootScope.pattern = 1;
+							$rootScope.startDemo = 0;
+							$rootScope.items = [];							
+							break;
+						} else {
+							$rootScope.pattern = 0;
+							$rootScope.items.push({
+								"number": $rootScope.arrayOfNumber[a],
+								"color": "lightblue",
+								"position": a
+							});
+						}
+					}
+										
 				}
 
 				// to disable the bubble sort button when user input is empty
@@ -191,7 +197,7 @@ myApp.controller('MakeArrayController', ['$rootScope', '$mdDialog', function ($r
 
 				}
 
-				if (len == 1) {
+				if ($rootScope.items.length == 1) {
 					$rootScope.message = "Congratulations!!! You have mastered Bubble Sort successfully!";
 					$rootScope.buttonMessage = 0;
 					return;
